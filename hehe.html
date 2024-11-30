@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Message Popup</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f7f7;
+        }
+
+        /* Styling the message icon */
+        #messageIcon {
+            font-size: 40px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Make the message icon pink when clicked */
+        #messageIcon.clicked {
+            background-color: #ff4081;
+            transform: scale(1.1);
+        }
+
+        /* Styling for the message box */
+        #messageBox {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            font-size: 18px;
+            opacity: 0;
+            animation: bounceIn 1s ease-in-out forwards;
+        }
+
+        /* Styling for the arrow button */
+        #arrowButton {
+            font-size: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            background: none;
+            border: none;
+            color: #4CAF50;
+            transition: color 0.3s ease;
+        }
+
+        #arrowButton:hover {
+            color: #ff4081;
+        }
+
+        /* Keyframes for bounce animation */
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* Show the message box */
+        #messageBox.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Message Icon -->
+    <div id="messageIcon" onclick="showMessage()">
+        📩
+    </div>
+
+    <!-- Message Box -->
+    <div id="messageBox">
+        <div id="messageText"></div>
+        <!-- Left to Right Arrow to switch messages -->
+        <button id="arrowButton" onclick="nextMessage()">→</button>
+    </div>
+
+    <script>
+        // Array of messages to cycle through
+        var messages = [
+            "Greetings! Happy Birthday Mahal ko! I love you so much!",
+            "Wishing you all the love and happiness on your special day!",
+            "You mean the world to me. Happy Birthday, my love!",
+            "May this year bring you even more joy and success! ❤️"
+        ];
+
+        var currentMessageIndex = 0;
+
+        // Function to show the message box with animation and change icon color
+        function showMessage() {
+            var messageBox = document.getElementById('messageBox');
+            var messageIcon = document.getElementById('messageIcon');
+            
+            // Add the 'clicked' class to change the icon color and add the bounce effect
+            messageIcon.classList.add('clicked');
+            
+            // Show the message box and trigger the animation
+            messageBox.classList.add('show');
+            
+            // Display the current message
+            displayMessage();
+        }
+
+        // Function to display a message with a bounce effect
+        function displayMessage() {
+            var messageText = document.getElementById('messageText');
+            messageText.innerHTML = ''; // Clear previous message
+
+            // Split the message into individual letters and apply the bounce effect
+            var letters = messages[currentMessageIndex].split('');
+            var delay = 0;
+
+            letters.forEach(function(letter) {
+                var span = document.createElement('span');
+                span.classList.add('letter');
+                span.textContent = letter;
+
+                // Add the letter to the message container
+                messageText.appendChild(span);
+
+                // Set the animation delay for each letter
+                span.style.animationDelay = `${delay}s`;
+                delay += 0.1; // Delay for the next letter
+            });
+        }
+
+        // Function to cycle through the messages
+        function nextMessage() {
+            // Move to the next message in the array, loop back to the start
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+
+            // Display the new message with the bounce effect
+            displayMessage();
+        }
+    </script>
+
+</body>
+</html>
